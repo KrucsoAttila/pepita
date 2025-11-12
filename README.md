@@ -17,5 +17,12 @@ $ docker compose up -d --build
 A parancs hibátlan lefutása után feláll a rendszer. A build készít egy Elasticsearch, Postgres, és egy Laravel konténert.  
 Átmásolja a laravel project `.env.example` fájt a `.env` fájlba. Itt minden paraméter rendelkezésre áll a futáshoz. Ha  más a cél környezet akkor értelem szerűen szerkeszteni kell az `.env` fájlt.  
 Ha mégsem futna le a `composer install` vagy az adatbázis nem állna fel vagy nem töltődnének be az adatok akkor a megfeleleő `artisan` vagy `composer` parancsot kell futtatni.  
-A seedek és a migrációk alapján működő adatbázis jön létre
+A seedek és a migrációk alapján működő adatbázis jön létre.  
 
+
+## Api Platform 
+
+Az api dokumentációt az Api Platform ezen a routingon publikálja: 
+```bash
+ http://localhost:8080/api/docs
+```
