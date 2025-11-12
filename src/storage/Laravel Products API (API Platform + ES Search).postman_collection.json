@@ -1,0 +1,272 @@
+{
+	"info": {
+		"_postman_id": "09f9f805-7d8a-45da-a46d-75c6b6f73c16",
+		"name": "Laravel Products API (API Platform + ES Search)",
+		"description": "Postman collection for testing Product endpoints:\n- API Platform CRUD under /api/products\n- Elasticsearch-backed search under /api/products/search\n\nSet the {{baseUrl}} variable to your app URL (default http://localhost:8080).\nThe collection sends `Accept: application/json` to avoid the API Platform HTML UI.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "5662092"
+	},
+	"item": [
+		{
+			"name": "Products - List (API Platform)",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "{{baseUrl}}/api/products?page={{page}}&itemsPerPage={{itemsPerPage}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"products"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "{{page}}"
+						},
+						{
+							"key": "itemsPerPage",
+							"value": "{{itemsPerPage}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Products - Get by ID",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "{{baseUrl}}/api/products/{{productId}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"products",
+						"{{productId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Products - Create",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"title\": \"Demo Phone Ultra\",\n  \"brand\": \"Acme\",\n  \"category_id\": \"00000000-0000-0000-0000-000000000000\",\n  \"price\": 199999.99,\n  \"currency\": \"HUF\",\n  \"stock\": 25,\n  \"seller_id\": \"00000000-0000-0000-0000-000000000000\",\n  \"rating\": 4.5,\n  \"popularity\": 123,\n  \"attributes\": {\n    \"color\": \"black\",\n    \"size\": \"OneSize\"\n  }\n}"
+				},
+				"url": {
+					"raw": "{{baseUrl}}/api/products",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"products"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Products - Update (PUT)",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"title\": \"Demo Phone Ultra (Updated)\",\n  \"brand\": \"Acme\",\n  \"category_id\": \"00000000-0000-0000-0000-000000000000\",\n  \"price\": 189999.0,\n  \"currency\": \"HUF\",\n  \"stock\": 20,\n  \"seller_id\": \"00000000-0000-0000-0000-000000000000\",\n  \"rating\": 4.6,\n  \"popularity\": 150,\n  \"attributes\": {\n    \"color\": \"black\",\n    \"size\": \"OneSize\"\n  }\n}"
+				},
+				"url": {
+					"raw": "{{baseUrl}}/api/products/{{productId}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"products",
+						"{{productId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Products - Partial Update (PATCH)",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"price\": 179999.0,\n  \"stock\": 18,\n  \"attributes\": {\n    \"color\": \"blue\"\n  }\n}"
+				},
+				"url": {
+					"raw": "{{baseUrl}}/api/products/{{productId}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"products",
+						"{{productId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Products - Delete",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "{{baseUrl}}/api/products/{{productId}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"products",
+						"{{productId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Products - Search (Elasticsearch)",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "{{baseUrl}}/api/products/search?_format={{searchFormat}}&q={{q}}&brand[]={{brand}}&categoryId={{categoryId}}&price[min]={{priceMin}}&price[max]={{priceMax}}&rating[min]={{ratingMin}}&rating[max]={{ratingMax}}&attr[color]={{color}}&attr[size]={{size}}&page={{page}}&itemsPerPage={{itemsPerPage}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"products",
+						"search"
+					],
+					"query": [
+						{
+							"key": "_format",
+							"value": "{{searchFormat}}"
+						},
+						{
+							"key": "q",
+							"value": "{{q}}"
+						},
+						{
+							"key": "brand[]",
+							"value": "{{brand}}"
+						},
+						{
+							"key": "categoryId",
+							"value": "{{categoryId}}"
+						},
+						{
+							"key": "price[min]",
+							"value": "{{priceMin}}"
+						},
+						{
+							"key": "price[max]",
+							"value": "{{priceMax}}"
+						},
+						{
+							"key": "rating[min]",
+							"value": "{{ratingMin}}"
+						},
+						{
+							"key": "rating[max]",
+							"value": "{{ratingMax}}"
+						},
+						{
+							"key": "attr[color]",
+							"value": "{{color}}"
+						},
+						{
+							"key": "attr[size]",
+							"value": "{{size}}"
+						},
+						{
+							"key": "page",
+							"value": "{{page}}"
+						},
+						{
+							"key": "itemsPerPage",
+							"value": "{{itemsPerPage}}"
+						}
+					]
+				},
+				"description": "Tipikus példa: q=iphone, brand[]=Apple, price[min]=100000, price[max]=800000, attr[color]=black"
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:8080"
+		},
+		{
+			"key": "searchFormat",
+			"value": "json"
+		}
+	]
+}
