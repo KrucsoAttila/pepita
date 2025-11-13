@@ -7,6 +7,7 @@ use App\Models\ReindexJob;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Queue;
+use App\Dto\ReindexStatus;
 
 class ProductIndexController extends Controller
 {
@@ -27,19 +28,8 @@ class ProductIndexController extends Controller
         ], 202);
     }
 
-    public function reindexStatus(string $id): JsonResponse
+    public function reindexStatus(ReindexJob $job): JsonResponse
     {
-        $rec = ReindexJob::findOrFail($id);
-
-        return response()->json([
-            'job_id' => $rec->id,
-            'status' => $rec->status,
-            'recreate' => (bool) $rec->recreate,
-            'error' => $rec->error,
-            'started_at' => optional($rec->started_at)?->toISOString(),
-            'finished_at' => optional($rec->finished_at)?->toISOString(),
-            'created_at' => $rec->created_at->toISOString(),
-            'updated_at' => $rec->updated_at->toISOString(),
-        ]);
+        return response()->json(ReindexStatus::fromJob($job));
     }
 }

@@ -27,7 +27,7 @@ final class ProductSearchProvider implements ProviderInterface
         try {
             $es = $this->clientBuilder->default();
             if (!$es->indices()->exists(['index'=>$this->readAlias])->asBool()) {
-                return new TraversablePaginator(new \ArrayIterator([]), $from, 0, $perPage);
+                throw new UnprocessableEntityHttpException("Alias doesn't exists: " . $this->readAlias);
             }
             $resp = $es->search([
                 'index' => $this->readAlias,

@@ -26,3 +26,15 @@ Az api dokumentációt az Api Platform ezen a routingon publikálja:
 ```bash
  http://localhost:8080/api/docs
 ```
+
+## Alias
+
+A keresés tesztelés előtt az Elasticsearchben létre kell hozni kézzel az aliaszokat:
+```bash
+curl -sS -X POST http://es:9200/_aliases -H 'Content-Type: application/json' -d "{
+  \"actions\": [
+    {\"add\": {\"index\": \"products_v1\", \"alias\": \"product_read\"}},
+    {\"add\": {\"index\": \"products_v1\", \"alias\": \"product_write\"}}
+  ]
+}"
+```

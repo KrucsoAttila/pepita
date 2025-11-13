@@ -27,11 +27,7 @@ class ElasticsearchProductIndexer implements ProductIndexService
     public function initIndex(bool $recreate = false): void
     {
         if ($recreate) {
-            try {
-                $this->es->indices()->delete(['index' => $this->index]);
-            } catch (Throwable) {
-                /** @todo logging */
-            }
+            $this->es->indices()->delete(['index' => $this->index]);
         }
 
         $exists = $this->es->indices()->exists(['index' => $this->index])->asBool();
