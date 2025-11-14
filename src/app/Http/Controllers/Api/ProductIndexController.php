@@ -8,23 +8,18 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Queue;
 use App\Dto\ReindexStatus;
+use App\Services\Contracts\ReindexService;
 
 class ProductIndexController extends Controller
 {
+    public function __construct(private readonly ReindexService $reindex) {}
+
     public function reindexAsync(Request $request): JsonResponse
     {
-        $recreate = $request->boolean('recreate', false);
-
-        $rec = ReindexJob::create([
-            'status' => 'pending',
-            'recreate' => $recreate,
-        ]);
-
-        Queue::push(new ProductReindexJob($rec->id, $recreate));
-
+        $job = $this->reindex->dispatchReindex($request->boolean('recreate', false));
         return response()->json([
             'status' => 'accepted',
-            'job_id' => $rec->id,
+            'job_id' => $job->id,
         ], 202);
     }
 

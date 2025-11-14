@@ -6,6 +6,10 @@ use App\Services\Contracts\ProductIndexService;
 use App\Services\ElasticsearchProductIndexer;
 use Symfony\Component\Validator\Validation;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
+use App\Services\Contracts\ReindexService;
+use App\Services\EloquentQueueReindexService;
+use Symfony\Component\Validator\Mapping\Loader\AttributeLoader;
+use Symfony\Component\Validator\Mapping\LazyLoadingMetadataFactory;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -26,6 +30,7 @@ class AppServiceProvider extends ServiceProvider
             }
             return $builder->getValidator();
         });
+        $this->app->bind(ReindexService::class, EloquentQueueReindexService::class);
     }
 
     /**
